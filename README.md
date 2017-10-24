@@ -1,8 +1,8 @@
-## SudokuSolver - Trabalho 1 da Disciplina de Inteligência Artificial.
+# SudokuSolver - Trabalho 1 da Disciplina de Inteligência Artificial.
 
 Sudoku Solver desenvolvido em Java a partir de busca desinformada e informada.
 
-# Alunos:
+## Alunos:
 André Levi Zanon;
 
 Rodrigo Ferrari de Souza;
