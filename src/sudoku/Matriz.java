@@ -1,5 +1,8 @@
 package sudoku;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 /**
  * Created by Andre on 23/10/2017.
  */
@@ -72,7 +75,6 @@ public class Matriz {
         for(int i = 0; i < 9; i++){
             if(matriz[x][y] == matriz[x][i] && y!=i){
                 return false;
-
             }
         }
 
@@ -96,7 +98,7 @@ public class Matriz {
                 for(int i = 0; i <= 2; i++){
                     for(int j = 0; j <= 2; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -106,7 +108,7 @@ public class Matriz {
                 for(int i = 0; i <= 2; i++){
                     for(int j = 3; j <= 5; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -116,9 +118,8 @@ public class Matriz {
                 for(int i = 0; i <= 2; i++){
                     for(int j = 6; j <= 8; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j){;
+                            if(x!=i && y!=j)
                                 return false;
-                            }
 
                     }
                 }
@@ -128,7 +129,7 @@ public class Matriz {
                 for(int i = 3; i <= 5; i++){
                     for(int j = 0; j <= 2; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -138,7 +139,7 @@ public class Matriz {
                 for(int i = 3; i <= 5; i++){
                     for(int j = 3; j <= 5; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -148,7 +149,7 @@ public class Matriz {
                 for(int i = 3; i <= 5; i++){
                     for(int j = 6; j <= 8; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -158,7 +159,7 @@ public class Matriz {
                 for(int i = 6; i <= 8; i++){
                     for(int j = 0; j <= 2; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                           if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -168,7 +169,7 @@ public class Matriz {
                 for(int i = 6; i <= 8; i++){
                     for(int j = 3; j <= 5; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -178,7 +179,7 @@ public class Matriz {
                 for(int i = 6; i <= 8; i++){
                     for(int j = 6; j <= 8; j++){
                         if(matriz[x][y] == matriz[i][j])
-                            if(x!=i || y!=j)
+                            if(x!=i && y!=j)
                                 return false;
                     }
                 }
@@ -202,6 +203,22 @@ public class Matriz {
 
         return true;
     }
+    
+    //metodo verifica se o sudoku esta pronto
+    public boolean semConflitos(){
+        for(int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++){
+                if(matriz[i][j] != 0){
+                    if(!verificaQuadrante(i,j) || !verificaLinhaEColuna(i, j)){
+                        return false;
+                    }   
+                }
+            }
+        }
+
+        return true;
+    }
+
 
     public int[] proximoBranco(){
         for(int i = 0; i < 9; i++){
@@ -233,5 +250,4 @@ public class Matriz {
 
         }
     }
-
 }
