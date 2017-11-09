@@ -204,7 +204,7 @@ public class Matriz {
         return true;
     }
     
-    //metodo verifica se o sudoku esta pronto
+    //metodo verifica se o sudoku esta sem conflitos. Nao considera os espacos em branco
     public boolean semConflitos(){
         for(int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){

@@ -63,11 +63,7 @@ public class Sudoku {
         //copia o sudokuResolvido para matriz
         matriz.copiaMatriz(sudoku);
         //imprime inicial = start
-        if(matriz.semConflitos())
-            System.out.println("SEM CONFLITOS");
-        else
-            System.out.println("CONFLITANTE");
-        
+       
         matriz.printMatriz();
 
         //open = [start]
@@ -104,9 +100,8 @@ public class Sudoku {
                         //comandos p printar filhos
                         //System.out.println("Matriz NAO resolvida");
                         //copia.printMatriz();
-                        //se nao tiver sido vizitada, adiciona na open
+                        //se nao tiver sido vizitada e se nao tiver conflitos, adiciona na open
                         if ((!open.contains(copia) || !closed.contains(copia)) && copia.semConflitos()){
-                            System.out.println("Passou");
                             open.add(copia);
                         }
                             
