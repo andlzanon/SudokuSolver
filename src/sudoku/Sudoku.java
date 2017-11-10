@@ -20,7 +20,7 @@ public class Sudoku {
         final int tamanho = 9;
 
         //sudoku 1
-        int[][] sudoku = {
+        int[][] sudokuDificil = {
                 {8, 6, 0, 3, 0, 0, 0, 0, 0},
                 {0, 1, 5, 4, 0, 0, 0, 0, 0},
                 {0, 3, 9, 5, 0, 2, 0, 0, 0},
@@ -44,7 +44,7 @@ public class Sudoku {
                 {0, 6, 0, 4, 0, 8, 2, 5, 9}};
 
         //sudoku quase completo
-        int[][] sudokuResolvido = {
+        int[][] sudokuQuaseResolvido = {
                 {8, 6, 2, 3, 1, 7, 4, 9, 5},
                 {7, 1, 5, 4, 8, 9, 2, 6, 0},
                 {4, 3, 9, 5, 6, 2, 7, 1, 8},
@@ -54,23 +54,32 @@ public class Sudoku {
                 {2, 5, 3, 7, 9, 8, 1, 4, 6},
                 {9, 7, 6, 1, 4, 3, 8, 5, 2},
                 {0, 4, 8, 2, 5, 6, 9, 3, 0}};
+        
+       //sudoku mais dificil 2
+        int[][] sudokuDificil2 = {
+                {0, 0, 0, 2, 0, 7, 0, 0, 0},
+                {4, 1, 0, 6, 0, 8, 0, 9, 7},
+                {6, 0, 0, 0, 0, 0, 0, 0, 2},
+                {0, 3, 0, 0, 6, 0, 0, 4, 0},
+                {9, 0, 0, 5, 0, 1, 0, 0, 3},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 8},
+                {5, 9, 0, 7, 8, 4, 0, 1, 6},
+                {7, 2, 0, 0, 0, 0, 0, 5, 9}};
 
-        //sudoku teste de 2x2. Abaixo estao outros testes. se quiser verifica-los, descomente
-        //int[][] sudoku2 = {{1, 0}, {2, 3}};
 
         //cria uma matriz que na vdd e um sudoku.
         Matriz matriz = new Matriz();
         //copia o sudokuResolvido para matriz
-        matriz.copiaMatriz(sudoku);
+        matriz.copiaMatriz(sudokuDificil2);
         //imprime inicial = start
-       
         matriz.printMatriz();
-
+        
+        //inicio do algoritmo de Busca em Profundidade
         //open = [start]
         open.add(matriz);
 
-
-        while (!open.isEmpty()) {
+   while (!open.isEmpty()) {
             int x = -1, y = -1;
             //x = pop
             Matriz matriz1 = open.pop();
@@ -96,11 +105,22 @@ public class Sudoku {
                         Matriz copia = new Matriz();
                         //cria matriz de copia
                         copia.copiaMatriz(matriz1);
-                        copia.set(x, y, i);
-                        //comandos p printar filhos
-                        //System.out.println("Matriz NAO resolvida");
-                        //copia.printMatriz();
-                        //se nao tiver sido vizitada e se nao tiver conflitos, adiciona na open
+                        
+                        /*busca desinformada gera de 1 a 9 todos os filhos  
+                        copia.set(x, y, i); */
+                        
+                        /*busca informada: qtadeDeNumeros gera a quantidades de numeros que existem */
+                        //para cada numero de 1 a 9 
+                        copia.qtadeDeNumeros();
+                        //ordena o vetor de menor para maior em quantidade de aparicoes
+                        copia.menorEmQuantidade();
+                        //seta a partir do numero com maior numero de aparicoes
+                        copia.set(x, y, copia.getArray().get(i-1).getKey()); 
+                        
+                        /*comandos p printar filhos
+                        System.out.println("Matriz NAO resolvida");
+                        copia.printMatriz();
+                        se nao tiver sido vizitada e se nao tiver conflitos, adiciona na open */
                         if ((!open.contains(copia) || !closed.contains(copia)) && copia.semConflitos()){
                             open.add(copia);
                         }
@@ -122,7 +142,6 @@ public class Sudoku {
             }catch(Exception e){
                 
             }
-            
         }
         //fim da execucao. Sudoku resolvido
         System.out.println("Sudoku Resolvido");

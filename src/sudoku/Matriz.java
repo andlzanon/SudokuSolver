@@ -1,7 +1,10 @@
 package sudoku;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Stack;
+import javafx.util.Pair;
 
 /**
  * Created by Andre on 23/10/2017.
@@ -9,12 +12,15 @@ import java.util.Stack;
 public class Matriz {
 
     int [][] matriz;
+    //array de pares em que a chave e o numerod e 1 a 9 e o valor sua quantidade de aparicoes
+    ArrayList<Pair<Integer, Integer>> qtadePorNum;
 
     public Matriz(){
         matriz = new int[9][9];
+        qtadePorNum = new ArrayList();
     }
 
-    //copia a matriz
+    //copia a matriz a partir de uma matriz vetorial
     public void copiaMatriz(int [][] matrizCopia){
         for(int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
@@ -23,6 +29,7 @@ public class Matriz {
         }
     }
 
+    //copia matriz a partir da mesma classe
     public void copiaMatriz(Matriz matrizCopia){
         for(int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
@@ -30,11 +37,18 @@ public class Matriz {
             }
         }
     }
+    
+    //retorna o array de pares
+    public ArrayList<Pair<Integer, Integer>> getArray(){
+        return qtadePorNum;
+    }
 
+    //seta o valor especificado em x, y na matriz
     public void set(int x, int y, int elem){
         matriz[x][y] = elem;
     }
 
+    //retorna o valor especificado em x, y na matriz
     public int get(int x, int y){
         return matriz[x][y];
     }
@@ -220,6 +234,7 @@ public class Matriz {
     }
 
 
+    //retorna a posicao em que esta o valor branco
     public int[] proximoBranco(){
         for(int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
@@ -250,4 +265,43 @@ public class Matriz {
 
         }
     }
+    
+    /**
+     * para cada posicao do arrayList e colocado a quantidade de elementos de i+1
+     */
+    public void qtadeDeNumeros(){
+        for(int i = 0; i < 9; i++){
+            qtadePorNum.add(i, new Pair(i+1, numeroDeElementos(i+1)));
+        }
+    }
+    
+   /**
+    * 
+    * @param x valor que quer se saber a quantidade de elementos
+    * @return numero de elementos de x
+    */
+    private int numeroDeElementos(int x){
+        int count = 0;
+        for(int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++){
+                if(matriz[i][j] == x)
+                    count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    //ordena o valor de Pares em ordem crescente pelo menor numero de chaves
+    public void menorEmQuantidade(){
+       qtadePorNum.sort(new PairValueComparator());
+    }
+    
+    //classe que orderna um Array de pares
+    private class PairValueComparator implements Comparator<Pair<Integer, Integer>> {
+    @Override
+    public int compare(Pair<Integer, Integer> p1, Pair<Integer, Integer> p2) {
+        return p1.getValue().compareTo(p2.getValue());
+    }
+}
 }
