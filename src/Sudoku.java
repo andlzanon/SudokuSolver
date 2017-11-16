@@ -31,7 +31,15 @@ public class Sudoku {
             System.out.printf(" 1 - Muito facil\n 2 - Facil\n 3 - Medio\n 4 - Dificil\n 5 - Muito Dificil\n\n-> ");
             nivel = entrada.nextInt();
         }
-            
+        //Usuario define velocidade de execução do algoritmo
+        int execSpeed = 1;
+        while(execSpeed != 0 && execSpeed != 5 && execSpeed != 500 && execSpeed != 1000){
+            System.out.printf("\n Digite o tempo de espera entre as iteracoes(ms):\n\n");
+            System.out.printf(" 0 - Quero somente a matriz inicial e final\n "
+                    + "5 - Curto\n 500 - Medio\n 1000 - Longo\n\n-> ");
+            execSpeed = entrada.nextInt();
+        }
+        
         final int tamanho = 9;
         int contador = 0; //numero de iteracoes
         
@@ -118,10 +126,16 @@ public class Sudoku {
         matriz.printMatriz();
         for(int i = 0; i < 2; i++){
             if(i!=0)
-                System.out.print(" Pressione enter para iniciar");
+                System.out.print("Pressione enter para iniciar");
             entrada.nextLine();
         }
-	        
+        clrscr();
+        System.out.println("Matriz inicial");
+        matriz.printMatriz();
+        
+        //Tempo de execucao
+        long tempoInicio = System.currentTimeMillis();
+       
         //a partir do algoritmo de busca em profundidade passado no slide 30 da aula 6
         //define as pilhas open e close para os próximo e visitados respectivamente        
         if(funcao != 3){//se nao for busca em largura
@@ -141,7 +155,8 @@ public class Sudoku {
                 }
                 //x é objetivo retorne sucesso
                 if (matriz1.completa()) {
-                    clrscr();
+                    if(execSpeed != 0)
+                        clrscr();
                     System.out.println("Matriz resolvida");
                     matriz1.printMatriz();
                     contador++;
@@ -181,12 +196,16 @@ public class Sudoku {
                         closedS.add(matriz1);
                     }
                 }
-                try { Thread.sleep (5); } catch (InterruptedException ex) {}
-                //limpa tela
-                clrscr();
-                //imprime matriz que passou
-                System.out.println("Matriz Parcial");
-                matriz1.printMatriz();
+                try { Thread.sleep (execSpeed); } catch (InterruptedException ex) {}
+                if (execSpeed != 0){
+                    //limpa tela
+                    clrscr();
+                    //imprime matriz que passou
+                    System.out.println("Matriz Parcial");
+                    matriz1.printMatriz();
+                    System.out.println("Iteracao: "+contador+"     Tempo: "
+                            +((System.currentTimeMillis()-tempoInicio)/1000)+" segundo(s)");
+                }
                 contador++;
             }
         //funcao == 3 (Busca em Largura)
@@ -207,7 +226,8 @@ public class Sudoku {
                 }
                 //x é objetivo retorne sucesso
                 if (matriz1.completa()) {
-                    clrscr();
+                    if(execSpeed != 0)
+                        clrscr();
                     System.out.println("Matriz resolvida");
                     matriz1.printMatriz();
                     contador++;
@@ -238,18 +258,29 @@ public class Sudoku {
                         closedQ.add(matriz1);
                     }
                 }
-                try { Thread.sleep (5); } catch (InterruptedException ex) {}
-                //limpa tela
-                clrscr();
-                //imprime matriz que passou
-                System.out.println("Matriz Parcial");
-                matriz1.printMatriz();
+                try { Thread.sleep (execSpeed); } catch (InterruptedException ex) {}
+                if (execSpeed != 0){
+                    //limpa tela
+                    clrscr();
+                    //imprime matriz que passou
+                    System.out.println("Matriz Parcial");
+                    matriz1.printMatriz();
+                    System.out.println("Iteracao: "+contador+"     Tempo: "
+                            +((System.currentTimeMillis()-tempoInicio)/1000)+" segundo(s)");
+                }
                 contador++;
             }
         }
         //fim da execucao. Sudoku resolvido
         System.out.println("Sudoku Resolvido");
-        System.out.println("Iteracoes: "+contador);
+        if((System.currentTimeMillis()-tempoInicio) < 60000){
+            System.out.println("Iteracoes: "+contador+"     Tempo Total: "
+                    +((System.currentTimeMillis()-tempoInicio)/1000)+" segundo(s)");
+        } else {
+            System.out.println("Iteracoes: "+contador+"     Tempo Total: "
+                +((System.currentTimeMillis()-tempoInicio)/1000/60)+" minuto(s) e "
+                    +((System.currentTimeMillis()-tempoInicio)/1000%60)+" segundo(s)");
+        }
     }
     
     public static void clrscr(){
